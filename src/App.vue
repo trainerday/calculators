@@ -1,20 +1,16 @@
-<script setup>
-import HelloWorld from './components/HelloWorld.vue'
-import TheWelcome from './components/TheWelcome.vue'
-</script>
+<!-- <script setup>
+
+</script> -->
 
 <template>
-  <header>
-    <img alt="Vue logo" class="logo" src="./assets/logo.svg" width="125" height="125" />
+  <form>
+    <p>Weight <input required type="number" id="weight" min="0" max="1000"></p>
+    <p>
+      Height (ft) <input required type="number" id="feet" min="0" max="1000"> <br>
+      (in) <input required type="number" id="feet" min="0" max="11"> 
+    </p>
 
-    <div class="wrapper">
-      <HelloWorld msg="You did it!" />
-    </div>
-  </header>
-
-  <main>
-    <TheWelcome />
-  </main>
+  </form>
 </template>
 
 <style scoped>
