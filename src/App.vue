@@ -1,6 +1,13 @@
-<!-- <script setup>
+<script setup>
+import { ref } from 'vue';
 
-</script> -->
+let height = ref(0);
+
+function adjust(amount) {
+
+}
+
+</script>
 
 <template>
   <form>
@@ -9,6 +16,8 @@
       Height (ft) <input required type="number" id="feet" min="0" max="1000"> <br>
       (in) <input required type="number" id="feet" min="0" max="11"> 
     </p>
+
+    <button type="submit" @click="adjust()"></button>
 
   </form>
 </template>
