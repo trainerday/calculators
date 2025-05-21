@@ -1,42 +1,48 @@
 <script setup>
 import { ref } from 'vue';
+import Number_box_with_text from './components/number_box_with_text.vue';
+import Custom_radio_form_group from './components/custom_radio_form_group.vue'
 
-let height = ref(0);
+let is_metric = ref(true);
+let unit_systems = ref([{
+  label: "metric", 
+  value: "kg"
+}, {
+  label: "imperial",
+  value: "lbs"
+}]) ;
+
 let weight = ref(0);
-
-function adjust(amount) {
-
-}
-
-function changeWeight(e) {
-  weight.value = e.target.value;
-  console.log(weight.value);
-}
- 
-function changeHeight(e, scale) {
-
-  console.log(e.target.value)
-}
-
-function al(str) {
-  alert(str);
-}
+let power = ref(0);
+let unit = ref('kg');
 
 </script>
 
 <template>
-  <form>
-    <p>Weight <input required type="number" :value="weight" @change="changeWeight($event)" id="weight" min="0" max="1000"></p>
-    <p>
-      Height (ft) <input required type="number" @change="changeHeight($event, 12)" id="feet" min="0" max="1000"> <br>
-      (in) <input required type="number" @change="changeHeight($event, 1)" id="in" min="0" max="11"> 
-    </p>
-
-    <button type="submit" @click="adjust()">++</button>
-
-  </form>
-
-  <textarea v-on:keyup.s="al('Wowza');"></textarea>
+  <div class="units">
+    <Custom_radio_form_group 
+      v-model="unit" 
+      v-bind:fields="unit_systems" 
+      name="unitsys" 
+    />
+  </div>
+  <div class="energy">
+    <Number_box_with_text 
+      text="Average Power" 
+      unit="Watts" 
+      :params="{min: -100, max: 2700}"
+      v-model="power"
+    />
+  </div>
+  <div class="weight">
+    <Number_box_with_text 
+      text="Rider + Bike Weight" 
+      :unit="unit"  
+      :params="{min: 0, max: 1000}" 
+      v-model="weight"
+    />
+  </div>
+  
 </template>
 
 <style scoped>
