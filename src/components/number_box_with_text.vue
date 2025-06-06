@@ -15,6 +15,9 @@
         amount: {
             required: true,
         },
+        multiplier: {
+            required: false,
+        },
     })
 
     const emit = defineEmits(["update:amount"]);
@@ -25,7 +28,7 @@
         {{ text }} ({{ unit }}) <br>
         <input 
             type="number" 
-            :value="props.amount"
+            :value="Math.round(props.amount * ((typeof props.multiplier !== 'undefined') ? props.multiplier : 1))"
             @input="emit('update:amount', $event.target.value)"
             :min="(typeof params !== 'undefined') ? params.min : 0" 
             :max="(typeof params !== 'undefined') ? params.max : 1000"

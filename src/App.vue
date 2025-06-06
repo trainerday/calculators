@@ -9,15 +9,15 @@ const unit_lists = {
     type: "metric",
     weight: "kg",
     speed: "kph",
-    weight_from_imperial: 2.205,
-    speed_from_imperial: 1.60934,
+    weight_multiplier: 1,
+    speed_multiplier: 1,
   },
   imperial: {
     type: "imperial",
     weight: "lbs",
     speed: "mph",
-    weight_from_metric: .4535147,
-    speed_from_metric: .621371,
+    weight_multiplier: 2.205,
+    speed_multiplier: .621371,
   },
 } 
 let system_in_use = ref(unit_lists["metric"].type);
@@ -53,7 +53,8 @@ let headwind = 0
       :unit="unit_lists[system_in_use].weight"  
       :params="{min: 0, max: 1000}" 
       :amount="weight"
-      @update:amount="$event => (weight = $event)"
+      @update:amount="$event => (weight = $event / unit_lists[system_in_use].weight_multiplier)"
+      :multiplier="unit_lists[system_in_use].weight_multiplier"
     />
   </div>
   <div class="speed">
@@ -64,7 +65,7 @@ let headwind = 0
       :drag="drag"
       :frontal_area="frontal_area"
       :headwind="headwind"
-      
+      :multiplier="unit_lists[system_in_use].speed_multiplier"
     />
   </div>
   

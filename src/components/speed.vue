@@ -20,7 +20,10 @@ import { ref, computed, watch, onMounted } from 'vue';
         },
         headwind: {
             required: true,
-        }
+        },
+        multiplier: {
+            required: false,
+        },
     });
     const grav = 9.80665;
     const rolling_resistance = 0.005;
@@ -59,12 +62,12 @@ import { ref, computed, watch, onMounted } from 'vue';
             const next = v - ( f / df ) ;
             
             if (Math.abs(next - v) < tolerance) {
-                return next.toFixed(2) ;
+                return next ;
             }
 
             v = next ;
         }
-        return v.toFixed(2) ; // best estimate if no convergance
+        return v ; // best estimate if no convergance
     }
 
     const calculated_speed = ref(find_speed()) ;
@@ -84,6 +87,6 @@ import { ref, computed, watch, onMounted } from 'vue';
         <!-- {{ A }} {{ B }} {{ C }} -->
         Estimated Speed
         {{ (props.headwind == 0) ? "" : "(" + props.headwind + props.unit +" wind)" }} <br>
-        {{ calculated_speed }} {{ " " + props.unit }}
+        {{ (calculated_speed * props.multiplier).toFixed(2) }} {{ " " + props.unit }}
     </p>
 </template>
