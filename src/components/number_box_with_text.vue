@@ -1,4 +1,6 @@
 <script setup>
+import { ref, watch, computed } from 'vue';
+
     const props = defineProps({
         text: {
             type: String,
@@ -21,6 +23,13 @@
     })
 
     const emit = defineEmits(["update:amount"]);
+    const standard_multiplier = computed(() => (typeof props.multiplier !== 'undefined') ? props.multiplier : 1 );
+    // watch(
+    //     standard_multiplier,
+    //     (newVal) => {
+    //         val.value = Math.round(newVal) ;
+    //     }
+    // )
 </script>
 
 <template>
@@ -28,7 +37,7 @@
         {{ text }} ({{ unit }}) <br>
         <input 
             type="number" 
-            :value="Math.round(props.amount * ((typeof props.multiplier !== 'undefined') ? props.multiplier : 1))"
+            :value="props.amount * standard_multiplier"
             @input="emit('update:amount', $event.target.value)"
             :min="(typeof params !== 'undefined') ? params.min : 0" 
             :max="(typeof params !== 'undefined') ? params.max : 1000"

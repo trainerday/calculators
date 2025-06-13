@@ -1,14 +1,15 @@
 <script setup>
-import { watch, ref } from 'vue';
+import { ref } from 'vue';
 import Number_box_with_text from './components/number_box_with_text.vue';
 import Radio_group from './components/radio_group.vue'
 import Speed from './components/speed.vue';
+import Select_group from './components/select_group.vue';
 
 const unit_lists = {
   metric: {
     type: "metric",
     weight: "kg",
-    speed: "kph",
+    speed: "km/h",
     weight_multiplier: 1,
     speed_multiplier: 1,
   },
@@ -24,9 +25,23 @@ let system_in_use = ref(unit_lists["metric"].type);
 
 let weight = ref(50);
 let power = ref(200);
-let drag = 0.6
-let frontal_area = 0.5
-let headwind = 0
+const drags = [
+  {
+    name: "Tops",
+    value: 0.5
+  },
+  {
+    name: "Hoods + 20% on Drops",
+    value: 0.4
+  },
+  {
+    name: "Aero",
+    value: 0.3
+  }
+]
+let drag = ref(drags[0].value);
+let frontal_area = 0.5;
+let headwind = 0;
 
 </script>
 
@@ -57,14 +72,31 @@ let headwind = 0
       :multiplier="unit_lists[system_in_use].weight_multiplier"
     />
   </div>
+  <div class="drag">
+    <Select_group 
+      group="drag"
+      text="Choose a drag value"
+      :data="drags"
+      v-model="drag"
+    />
+  </div>
   <div class="speed">
     <Speed 
       :unit="unit_lists[system_in_use].speed"
       :power="power"
       :mass="weight"
       :drag="drag"
-      :frontal_area="frontal_area"
-      :headwind="headwind"
+      :frontal_area=".5"
+      :headwind="0"
+      :multiplier="unit_lists[system_in_use].speed_multiplier"
+    />
+    <Speed 
+      :unit="unit_lists[system_in_use].speed"
+      :power="power"
+      :mass="weight"
+      :drag="drag"
+      :frontal_area=".5"
+      :headwind="5"
       :multiplier="unit_lists[system_in_use].speed_multiplier"
     />
   </div>

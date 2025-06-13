@@ -1,5 +1,5 @@
 <script setup>
-import { ref, computed, watch, onMounted } from 'vue';
+import { ref, computed, watch } from 'vue';
 
     const props = defineProps({
         unit: {
@@ -70,16 +70,58 @@ import { ref, computed, watch, onMounted } from 'vue';
         return v ; // best estimate if no convergance
     }
 
+    // vv does not need looping function vv
+    // const compute_me_first = computed(() => {
+    //     return  props.drag * props.frontal_area * air_density ;
+    // }) 
+
+    // const a = computed(() => {
+    //     return .5 * compute_me_first.value ;
+    // })
+
+    // const b = computed(() => {
+    //     return props.headwind * compute_me_first.value ;
+    // })
+
+    // const c = computed(() => {
+    //     return grav * props.mass * rolling_resistance + ( a.value * (props.headwind ** 2)) ;
+    // })
+
+    // const d = computed(() => {
+    //     return 0 - (1 - drivetrain_loss) * props.power ;
+    // })
+
+    // const Q = computed(() => {
+    //     return (3*a.value*c.value - b.value**2) / (9*(a.value**2)) ;
+    // })
+
+    // const R = computed(() => {
+    //     return (9*a.value*b.value*c.value - 27*d.value*(a.value**2) - 2*(b.value**3)) / (54*(a.value**3))
+    // })
+
+    // const S = computed(() => {
+    //     return Math.cbrt( R.value + Math.sqrt((Q.value**3 + R.value**2)) )
+    // })
+
+    // const T = computed(() => {
+    //     return Math.cbrt( R.value - Math.sqrt((Q.value**3 + R.value**2)) )
+    // })
+
+    // function find_speed2() {
+    //     return S.value + T.value - (b.value / (3*a.value))
+    // }
+
+    // const calculated_speed2 = ref(find_speed2()) ;
     const calculated_speed = ref(find_speed()) ;
 
     watch(
         () => [props.power, props.mass, props.drag, props.frontal_area, props.headwind],
         () => {
             calculated_speed.value = find_speed();
+            // calculated_speed2.value = find_speed2();
         },
         { immediate: true }
     );
-
 </script>
 
 <template>
@@ -87,6 +129,6 @@ import { ref, computed, watch, onMounted } from 'vue';
         <!-- {{ A }} {{ B }} {{ C }} -->
         Estimated Speed
         {{ (props.headwind == 0) ? "" : "(" + props.headwind + props.unit +" wind)" }} <br>
-        {{ (calculated_speed * props.multiplier).toFixed(2) }} {{ " " + props.unit }}
+        {{ (calculated_speed * props.multiplier * 3.6).toFixed(2) }} {{ " " + props.unit }} <br>
     </p>
 </template>
