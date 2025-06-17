@@ -1,133 +1,86 @@
 <script setup>
-import { ref } from 'vue';
-import Number_box_with_text from './components/number_box_with_text.vue';
-import Radio_group from './components/radio_group.vue'
-import Speed from './components/speed.vue';
-import Select_group from './components/select_group.vue';
+import Power_to_speed from './components/power_to_speed.vue';
 
-const unit_lists = {
-  metric: {
-    type: "metric",
-    weight: "kg",
-    speed: "km/h",
-    weight_multiplier: 1,
-    speed_multiplier: 1,
-  },
-  imperial: {
-    type: "imperial",
-    weight: "lbs",
-    speed: "mph",
-    weight_multiplier: 2.205,
-    speed_multiplier: .621371,
-  },
-} 
-let system_in_use = ref(unit_lists["metric"].type);
-
-let weight = ref(50);
-let power = ref(200);
-const drags = [
-  {
-    name: "Tops",
-    value: 0.5
-  },
-  {
-    name: "Hoods + 20% on Drops",
-    value: 0.4
-  },
-  {
-    name: "Aero",
-    value: 0.3
-  }
-]
-let drag = ref(drags[0].value);
-let frontal_area = 0.5;
-let headwind = 0;
 
 </script>
 
 <template>
-  <div class="units">
-    <Radio_group 
-      v-model="system_in_use" 
-      :unit_system="unit_lists"
-      name="unit_selector"
-    />
-  </div>
-  <div class="energy">
-    <Number_box_with_text 
-      text="Average Power" 
-      unit="Watts" 
-      :params="{min: 0, max: 2700}"
-      :amount="power"
-      @update:amount="$event => (power = $event)"
-    />
-  </div>
-  <div class="weight">
-    <Number_box_with_text 
-      text="Rider + Bike Weight" 
-      :unit="unit_lists[system_in_use].weight"  
-      :params="{min: 0, max: 1000}" 
-      :amount="weight"
-      @update:amount="$event => (weight = $event / unit_lists[system_in_use].weight_multiplier)"
-      :multiplier="unit_lists[system_in_use].weight_multiplier"
-    />
-  </div>
-  <div class="drag">
-    <Select_group 
-      group="drag"
-      text="Choose a drag value"
-      :data="drags"
-      v-model="drag"
-    />
-  </div>
-  <div class="speed">
-    <Speed 
-      :unit="unit_lists[system_in_use].speed"
-      :power="power"
-      :mass="weight"
-      :drag="drag"
-      :frontal_area=".5"
-      :headwind="0"
-      :multiplier="unit_lists[system_in_use].speed_multiplier"
-    />
-    <Speed 
-      :unit="unit_lists[system_in_use].speed"
-      :power="power"
-      :mass="weight"
-      :drag="drag"
-      :frontal_area=".5"
-      :headwind="5"
-      :multiplier="unit_lists[system_in_use].speed_multiplier"
-    />
-  </div>
-  
+	<div class="app-layout">
+		<header>
+			Trainer Day!
+		</header>
+		<main class="main-content">
+			<h1>Cycling Calculators</h1>
+			<div class="calc">
+				<Power_to_speed />
+			</div>
+		</main>
+		<footer class="footer">
+			We're really cool
+		</footer>
+	</div>
 </template>
 
 <style scoped>
-header {
-  line-height: 1.5;
-}
+	/* devanagari */
+	@font-face {
+		font-family: 'Poppins';
+		font-style: normal;
+		font-weight: 400;
+		font-display: fallback;
+		src: url(https://fonts.gstatic.com/s/poppins/v23/pxiEyp8kv8JHgFVrJJbecmNE.woff2) format('woff2');
+		unicode-range: U+0900-097F, U+1CD0-1CF9, U+200C-200D, U+20A8, U+20B9, U+20F0, U+25CC, U+A830-A839, U+A8E0-A8FF, U+11B00-11B09;
+	}
+	/* latin-ext */
+	@font-face {
+		font-family: 'Poppins';
+		font-style: normal;
+		font-weight: 400;
+		font-display: fallback;
+		src: url(https://fonts.gstatic.com/s/poppins/v23/pxiEyp8kv8JHgFVrJJnecmNE.woff2) format('woff2');
+		unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+	}
+	/* latin */
+	@font-face {
+		font-family: 'Poppins';
+		font-style: normal;
+		font-weight: 400;
+		font-display: fallback;
+		src: url(https://fonts.gstatic.com/s/poppins/v23/pxiEyp8kv8JHgFVrJJfecg.woff2) format('woff2');
+		unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+	}
 
-.logo {
-  display: block;
-  margin: 0 auto 2rem;
-}
+	.app-layout {
+		display: flex;
+		flex-direction: column;
+		min-height: 100vh;
+	}
 
-@media (min-width: 1024px) {
-  header {
-    display: flex;
-    place-items: center;
-    padding-right: calc(var(--section-gap) / 2);
-  }
+	.header {
+		background-color: #333;
+		color: white;
+		padding: 1rem;
+	}
 
-  .logo {
-    margin: 0 2rem 0 0;
-  }
+	.main-content {
+		flex: 1;
+		padding: 1rem;
+	}
 
-  header .wrapper {
-    display: flex;
-    place-items: flex-start;
-    flex-wrap: wrap;
-  }
-}
+	h1 {
+		text-align: center;
+	}
+
+	.footer {
+		background-color: #333;
+		color: white;
+		padding: 1
+	}
+
+	.calc {
+		border: 1px solid grey;
+		background-color: white;
+		color: black;
+
+	}
 </style>
