@@ -40,37 +40,96 @@ const drags = [
     }
 ]
 let drag = ref(drags[0].value);
-let frontal_area = 0.5;
-let headwind = 0;
 
 </script>
 
 <template>
-    <div class="units">
-        <Radio_group v-model="system_in_use" :unit_system="unit_lists" name="unit_selector" />
+    <div class="container">
+        <div class="units">
+            Units:
+            <Radio_group
+                v-model="system_in_use" 
+                :unit_system="unit_lists" 
+                name="unit_selector" 
+            />
+        </div>
+        <div class="numbers-with-text">
+            <span class="energy">
+                <Number_box_with_text 
+                    text="Average Power" unit="Watts" 
+                    :params="{ min: 0, max: 2700 }" 
+                    :amount="power"
+                    @update:amount="$event => (power = $event)" 
+                />
+            </span>
+            <span class="weight">
+                <Number_box_with_text text="Rider + Bike Weight" 
+                    :unit="unit_lists[system_in_use].weight"
+                    :params="{ min: 0, max: 1000 }" 
+                    :amount="weight"
+                    @update:amount="$event => (weight = $event / unit_lists[system_in_use].weight_multiplier)"
+                    :multiplier="unit_lists[system_in_use].weight_multiplier" 
+                />
+            </span>
+        </div>
+        <div>
+            <span class="drag">
+                <Select_group 
+                    group="drag" 
+                    text="Choose a drag value" 
+                    :data="drags" 
+                    v-model="drag" 
+                />
+            </span>
+        </div>
+        <div>
+            <span class="speed">
+                <Speed 
+                    :unit="unit_lists[system_in_use].speed" 
+                    :power="power" 
+                    :mass="weight" 
+                    :drag="drag" 
+                    :frontal_area=".5"
+                    :headwind="0" 
+                    :multiplier="unit_lists[system_in_use].speed_multiplier" 
+                />
+                <Speed 
+                    :unit="unit_lists[system_in_use].speed" 
+                    :power="power" 
+                    :mass="weight" 
+                    :drag="drag" 
+                    :frontal_area=".5"
+                    :headwind="5" 
+                    :multiplier="unit_lists[system_in_use].speed_multiplier" 
+                />
+            </span>
+        </div>
     </div>
-    <div class="energy">
-        <Number_box_with_text text="Average Power" unit="Watts" :params="{ min: 0, max: 2700 }" :amount="power"
-            @update:amount="$event => (power = $event)" />
-    </div>
-    <div class="weight">
-        <Number_box_with_text text="Rider + Bike Weight" :unit="unit_lists[system_in_use].weight"
-            :params="{ min: 0, max: 1000 }" :amount="weight"
-            @update:amount="$event => (weight = $event / unit_lists[system_in_use].weight_multiplier)"
-            :multiplier="unit_lists[system_in_use].weight_multiplier" />
-    </div>
-    <div class="drag">
-        <Select_group group="drag" text="Choose a drag value" :data="drags" v-model="drag" />
-    </div>
-    <div class="speed">
-        <Speed :unit="unit_lists[system_in_use].speed" :power="power" :mass="weight" :drag="drag" :frontal_area=".5"
-            :headwind="0" :multiplier="unit_lists[system_in_use].speed_multiplier" />
-        <Speed :unit="unit_lists[system_in_use].speed" :power="power" :mass="weight" :drag="drag" :frontal_area=".5"
-            :headwind="5" :multiplier="unit_lists[system_in_use].speed_multiplier" />
-    </div>
-
 </template>
 
 <style scoped>
+    p {
+        display: inherit;
+    }
 
+    .top {
+        padding: 4%;
+    }
+
+    .container {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .numbers-with-text {
+        display: inherit;
+        flex-direction: row;
+        justify-content: space-evenly;
+    }
+
+    .units {
+        display: flex;
+    }
+
+    
 </style>

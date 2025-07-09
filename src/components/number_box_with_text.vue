@@ -33,8 +33,8 @@ import { ref, watch, computed } from 'vue';
 </script>
 
 <template>
-    <p>
-        {{ text }} ({{ unit }}) <br>
+    <div>
+        {{ text }} ({{ unit }})
         <input 
             type="number" 
             :value="props.amount * standard_multiplier"
@@ -42,5 +42,12 @@ import { ref, watch, computed } from 'vue';
             :min="(typeof params !== 'undefined') ? params.min : 0" 
             :max="(typeof params !== 'undefined') ? params.max : 1000"
         >
-    </p>
+    </div>
 </template>
+
+<style scoped>
+    div {
+        display: flex;
+        flex-direction: column;
+    }
+</style>

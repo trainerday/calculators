@@ -1,5 +1,6 @@
 <script setup>
 import Power_to_speed from './components/power_to_speed.vue';
+import img_link from './components/img_link.vue';
 
 
 </script>
@@ -7,80 +8,106 @@ import Power_to_speed from './components/power_to_speed.vue';
 <template>
 	<div class="app-layout">
 		<header>
-			Trainer Day!
+			<div class="header" id="content">
+				<div>
+					<img_link 
+						img="https://trainerday.com/wp-content/uploads/2023/09/td_white.svg"
+						link="https://trainerday.com/"
+						:size="{
+							width: 171,
+							height: 39,
+						}"
+					/>
+				</div>
+			</div>
 		</header>
 		<main class="main-content">
+			<img src="https://trainerday.com/wp-content/uploads/2023/09/home.jpeg" alt="background">
+		</main>
+		<div class="body-container" id="content">
 			<h1>Cycling Calculators</h1>
 			<div class="calc">
 				<Power_to_speed />
-			</div>
-		</main>
-		<footer class="footer">
+			</div> 
+		</div>
+		<footer>
 			We're really cool
 		</footer>
 	</div>
 </template>
 
 <style scoped>
-	/* devanagari */
-	@font-face {
-		font-family: 'Poppins';
-		font-style: normal;
-		font-weight: 400;
-		font-display: fallback;
-		src: url(https://fonts.gstatic.com/s/poppins/v23/pxiEyp8kv8JHgFVrJJbecmNE.woff2) format('woff2');
-		unicode-range: U+0900-097F, U+1CD0-1CF9, U+200C-200D, U+20A8, U+20B9, U+20F0, U+25CC, U+A830-A839, U+A8E0-A8FF, U+11B00-11B09;
-	}
-	/* latin-ext */
-	@font-face {
-		font-family: 'Poppins';
-		font-style: normal;
-		font-weight: 400;
-		font-display: fallback;
-		src: url(https://fonts.gstatic.com/s/poppins/v23/pxiEyp8kv8JHgFVrJJnecmNE.woff2) format('woff2');
-		unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
-	}
-	/* latin */
-	@font-face {
-		font-family: 'Poppins';
-		font-style: normal;
-		font-weight: 400;
-		font-display: fallback;
-		src: url(https://fonts.gstatic.com/s/poppins/v23/pxiEyp8kv8JHgFVrJJfecg.woff2) format('woff2');
-		unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+	#content {
+		max-width: 68%;
 	}
 
 	.app-layout {
-		display: flex;
+		display: block;
 		flex-direction: column;
 		min-height: 100vh;
 	}
 
-	.header {
-		background-color: #333;
-		color: white;
-		padding: 1rem;
-	}
-
 	.main-content {
-		flex: 1;
-		padding: 1rem;
+		position: relative;
+		display: inline-block;
+		min-width: 100vw;
+		max-width: 100%;
+		overflow: hidden;
 	}
 
-	h1 {
-		text-align: center;
+	.main-content img {
+		width: 100%;
+		height: auto;
+		display: block;
+		object-fit: contain;
+		z-index: -1;
+		pointer-events: none;
 	}
 
-	.footer {
-		background-color: #333;
-		color: white;
-		padding: 1
+	.body-container {
+		position: absolute;
+		display: flex;
+		flex-direction: column;
+		top: 7%;
+		left: 5%;
+		right: 50%;
 	}
 
 	.calc {
-		border: 1px solid grey;
 		background-color: white;
+		border: grey 5px solid;
+		height: 100%;
+		border-radius: 1%;
 		color: black;
+		z-index: 2;
+	}
 
+	h1 {
+		display: inline;
+		text-align: center;
+		text-justify: center;
+		color: white;
+	}
+
+	header {
+		display: flex;
+		background: var(--primary);
+		justify-content: center;
+		align-items: center;
+	}
+
+	.header {
+		padding: 16px 10px 16px 10px;
+		height: 39px;
+		display: flex;
+		
+		flex-direction: row;
+	}
+
+	footer {
+		display: block;
+		background-color: #333;
+		color: white;
+		padding: 1
 	}
 </style>
