@@ -5,9 +5,9 @@ import Radio_group from './radio_group.vue'
 import Speed from './speed.vue';
 import Select_group from './select_group.vue';
 
-import tops from '@/assets/Tops.png'
-import hoods from '@/assets/Hoods.png'
-import aero from '@/assets/Aero.png'
+import tops from '@/assets/Tops.svg'
+import hoods from '@/assets/Hoods.svg'
+import aero from '@/assets/Aero.svg'
 
 const unit_lists = {
     metric: {
@@ -155,10 +155,6 @@ watch(drag, () => {
         text-align: center;
         gap: 1.25rem;
         padding: 0px 10% 1.5rem 10%;
-    }
-
-    .units {
-
     }
 
     .numbers-with-text {
