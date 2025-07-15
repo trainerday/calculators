@@ -1,9 +1,13 @@
 <script setup>
-import { ref } from 'vue';
+import { ref, watch } from 'vue';
 import Number_box_with_text from './number_box_with_text.vue';
 import Radio_group from './radio_group.vue'
 import Speed from './speed.vue';
 import Select_group from './select_group.vue';
+
+import tops from '@/assets/Tops.png'
+import hoods from '@/assets/Hoods.png'
+import aero from '@/assets/Aero.png'
 
 const unit_lists = {
     metric: {
@@ -28,23 +32,42 @@ let power = ref(200);
 const drags = [
     {
         name: "Tops",
+        img: tops,
         value: 0.5
     },
     {
         name: "Hoods + 20% on Drops",
+        img: hoods,
         value: 0.4
     },
     {
         name: "Aero",
+        img: aero,
         value: 0.3
     }
 ]
 let drag = ref(drags[0].value);
 
+let drag_image = ref(drags[0].img)
+watch(drag, () => {
+    for (let i in drags) {
+        // console.log(drag.value, drags[i], drag.value == drags[i].value)
+        if (drag.value == drags[i].value) {
+            drag_image.value = drags[i].img;
+            break;
+        }
+    }
+})
+
 </script>
 
 <template>
     <div class="container">
+        <h2>Cycling Power-to-Speed Calculator</h2>
+        <p>
+            Estimate your cycling speed based on power output <br>
+            and conditions <a href="https://gribble.org/cycling/power_v_speed.html" target="_blank">Learn More</a>
+        </p>
         <div class="units">
             Units:
             <Radio_group
@@ -72,16 +95,17 @@ let drag = ref(drags[0].value);
                 />
             </span>
         </div>
-        <div>
-            <span class="drag">
-                <Select_group 
-                    group="drag" 
-                    text="Choose a drag value" 
-                    :data="drags" 
-                    v-model="drag" 
-                />
-            </span>
-        </div>
+        <span class="drag">
+            <Select_group 
+                group="drag" 
+                text="Choose a drag value:" 
+                :data="drags" 
+                v-model="drag" 
+            />
+            <div class="image">
+                <img :src="drag_image">
+            </div>
+        </span>
         <div>
             <span class="speed">
                 <Speed 
@@ -108,8 +132,17 @@ let drag = ref(drags[0].value);
 </template>
 
 <style scoped>
+    h2 {
+        margin-top: 1.5rem;
+        margin-bottom: 0;
+    }
+
     p {
-        display: inherit;
+        margin-top: 0;
+    }
+
+    a {
+        font-size: medium;
     }
 
     .top {
@@ -119,6 +152,13 @@ let drag = ref(drags[0].value);
     .container {
         display: flex;
         flex-direction: column;
+        text-align: center;
+        gap: 1.25rem;
+        padding: 0px 10% 1.5rem 10%;
+    }
+
+    .units {
+
     }
 
     .numbers-with-text {
@@ -127,9 +167,42 @@ let drag = ref(drags[0].value);
         justify-content: space-evenly;
     }
 
-    .units {
-        display: flex;
+    .drag {
+        display: grid;
+        justify-content: center;
+        align-items: center;
+        grid-template-areas: 
+            '. drag-image'
+            '. drag-image';
     }
 
+    .image {
+        display: flex;
+        grid-area: drag-image;
+        height: 90px;
+        width: 250px;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .image > img {
+        object-fit: contain;
+        width: 100%;
+        height: 100%;
+    }
+
+    .speed {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-evenly;
+        text-justify: center;
+    }
     
+    @media (max-width: 800px) {
+        .drag {
+            display: flex;
+            flex-direction: column;
+            gap: 7px;
+        }
+    }
 </style>

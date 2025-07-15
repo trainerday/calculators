@@ -18,10 +18,14 @@
 </script>
 
 <template>
-    <label :for="props.group">{{ props.text }}</label>
+    {{ props.text }}
     <select v-model="update_me" :name="props.group" :id="props.group">
         <option v-for="info_group in props.data" :value="info_group.value">
             {{ info_group.name }} ({{ info_group.value }})
         </option>
     </select>
 </template>
+
+<style scoped>
+    
+</style>

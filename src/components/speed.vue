@@ -125,10 +125,17 @@ import { ref, computed, watch } from 'vue';
 </script>
 
 <template>
-    <p>
+    <div>
         <!-- {{ A }} {{ B }} {{ C }} -->
         Estimated Speed
         {{ (props.headwind == 0) ? "" : "(" + props.headwind + props.unit +" wind)" }} <br>
-        {{ (calculated_speed * props.multiplier * 3.6).toFixed(2) }} {{ " " + props.unit }} <br>
-    </p>
+        {{ (calculated_speed * props.multiplier * 3.6).toFixed(2) }} {{ " " + props.unit }}
+        
+    </div>
 </template>
+
+<style scoped>
+    div {
+        text-align: center;
+    }
+</style>

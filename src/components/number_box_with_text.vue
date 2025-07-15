@@ -49,5 +49,8 @@ import { ref, watch, computed } from 'vue';
     div {
         display: flex;
         flex-direction: column;
+        text-align: center;
+        align-items: center;
+        justify-content: center;
     }
 </style>
